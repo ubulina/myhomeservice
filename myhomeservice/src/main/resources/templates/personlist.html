@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Personlist</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
+ 
+</head>
+<body>
+	<div class="col-md-4">
+		<h1>Homeservice - persons</h1>
+	</div>
+	<div class="col-md-4">
+		<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	</div>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-danger"/>
+		</form>
+	</div>
+    
+    <div style="padding:0 20px">
+    <table class="table table-striped">
+		<tr>
+		    <th>Firstname</th>
+		    <th>Lastname</th>
+		    <th>Birth year</th>
+		    <th>Status</th>
+		    <th>Hourly pay</th>
+		    <th>E-mail</th>
+		    <th>Phone</th>
+		    <th>Jobs</th>
+		    <th>Actions</th>
+		</tr>  
+    	<tr th:each = "person : ${persons}">
+    		<td th:text="${person.firstName}"></td>
+    		<td th:text="${person.lastName}"></td>
+    		<td th:text="${person.birthYear}"></td>
+    		<td th:text="${person.status}"></td>
+    		<td th:text="${person.hourlyPay}"></td>
+    		<td th:text="${person.email}"></td>
+    		<td th:text="${person.phone}"></td>
+    		<td>
+				<span th:each="job,iterStat : ${person.jobs}">
+					<span th:text="${job.area}"></span><th:block th:if="${!iterStat.last}">,</th:block>
+				</span>    		
+    		</td>
+    		<td>
+    			<a th:href="@{/personAddJob/{id}(id=${person.id})}" class="btn btn-success">Add Job</a>
+    			<a th:href="@{/delete/{id}(id=${person.id})}" class="btn btn-danger">Delete</a>
+    			<a th:href="@{/edit/{id}(id=${person.id})}" class="btn btn-primary">Edit</a>
+    		</td>
+    	</tr>
+    </table>
+    <a href="/addPerson" class="btn btn-success">Add Person</a>
+	</div>    
+</body>
+</html>

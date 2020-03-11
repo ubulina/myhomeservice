@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Homeservice - add job</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" th:href="@{../css/bootstrap.min.css}" />	
+</head>
+<body>
+	<h1>Add job </h1>
+	
+	<form th:action="@{/person/{id}/jobs(id=${person.id})}" method="get" enctype="multipart/form-data" >
+	<div class="col-md-4">
+		<div class="panel panel-default">
+		 <div class="panel-heading">Person info</div>
+		 <div class="panel-body" style="padding-left: 5px;">
+			Firstname: <span th:text="${person.firstName}"></span> <br/>
+			Lastname: <span th:text="${person.lastName}"></span><br/>
+			Birth year: <span th:text="${person.birthYear}"></span><br/>
+			Status: <span th:text="${person.status}"></span><br/>
+			Hourly pay: <span th:text="${person.hourlyPay}"></span><br/>
+			E-mail: <span th:text="${person.email}"></span><br/>
+			Phone: <span th:text="${person.phone}"></span><br/>
+			<br/>Jobs:
+				<span th:each="job : ${person.jobs}">
+					<br/>&nbsp;&nbsp;<span th:text="${job.area}"></span>
+				</span>
+				<br/>
+				</div>
+		</div>	
+			<div class="col-md-6">
+			<select class="form-control" name="jobId">
+				<option th:each="job : ${alljobs}" 
+					th:value="${job.jobId}" 
+					th:text="${job.area}">Job</option>
+			</select>
+			</div>
+			<input type="submit" class="btn btn-success" value="Add job"/>
+	</div>
+	</form>
+</body>
+</html>

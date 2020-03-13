@@ -17,6 +17,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "Persons")
 public class Person {
@@ -29,6 +33,7 @@ public class Person {
 	private int birthYear;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="statusId")
 	private Status status;
 	private int hourlyPay;
@@ -43,6 +48,7 @@ public class Person {
 //			joinColumns = { @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false, updatable = false) },
 //			inverseJoinColumns = { @JoinColumn(name = "job_id", referencedColumnName = "jobId", nullable = false, updatable = false) }
 			)
+	@JsonIgnoreProperties("persons")//merkintä laitetaan ristiin manytomany-suhteessa oleviin listoihin
 	private Set<Job> jobs = new HashSet<>();
 
 	public Person() {

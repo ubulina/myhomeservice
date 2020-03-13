@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fi.demot.myhomeservice.domain.Job;
 import fi.demot.myhomeservice.domain.JobRepository;
@@ -118,5 +119,20 @@ public class HomeserviceController {
 
 	}
 		
+	//Rest-palvelu, joka listaa työntekijät ja heidän tekemänsä työt
+	@RequestMapping(value="/persons", method = RequestMethod.GET)
+	public @ResponseBody List <Person> personListRest(){
+		
+		return (List<Person>) personrepository.findAll();
+	}
+	
+	//Rest-palvelu, joka listaa työt ja niitä tekevät henkilöt
+	@RequestMapping(value="/jobs", method = RequestMethod.GET)
+	public @ResponseBody List<Job> jobListRest(){
+		
+		return (List<Job>) jobrepository.findAll();
+		
+		
+	}
 
 }

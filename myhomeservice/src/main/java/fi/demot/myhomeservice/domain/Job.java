@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name= "Jobs")
 public class Job {
@@ -23,6 +26,7 @@ public class Job {
 	private String area;
 
 	@ManyToMany(mappedBy="jobs")  //, fetch = FetchType.EAGER)//person-olion jobs-listaus omistaa viittaussuhteen
+	@JsonIgnoreProperties("jobs")//merkintä laitetaan ristiin manytomany-suhteessa oleviin listoihin
 	private Set<Person> persons = new HashSet<>();
 
 	public Job() {

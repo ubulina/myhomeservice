@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Status")
 public class Status {
@@ -21,6 +23,7 @@ public class Status {
 	private String description;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "status") //status omistaa viittaussuhteen
+	@JsonIgnore
 	private List<Person> statuslist = new ArrayList<>();
 
 	public Status() {

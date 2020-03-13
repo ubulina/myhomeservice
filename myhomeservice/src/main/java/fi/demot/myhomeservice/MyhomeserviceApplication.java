@@ -1,10 +1,5 @@
 package fi.demot.myhomeservice;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -68,10 +63,8 @@ public class MyhomeserviceApplication {
 					statusrepository.findByDescription("student").get(0), 13, "maija@makkonen.fi", "040123456");
 			
 			
-			//yhdistetään henkilö ja työ id:iden avulla MITEN????
-			
-			
-			
+			//yhdistetään henkilö ja työ id:iden avulla
+				
 			person1.getJobs().add(job1);
 			person1.getJobs().add(job2);
 			person1.getJobs().add(job4);
@@ -81,7 +74,7 @@ public class MyhomeserviceApplication {
 			
 			
 			
-			//lisää myös töille tekijöitä
+			//lisää töille tekijöitä id:iden avulla
 			
 			job1.getPersons().add(person1);
 			job1.getPersons().add(person2);
@@ -95,38 +88,7 @@ public class MyhomeserviceApplication {
 			
 			personrepository.save(person1);
 			personrepository.save(person2);
-
-/*			log.info(">>> luodaan eka joukko töitä");
-			Set<Job> jobs1 = new HashSet<>();
-			log.info(">>> lista ok");
-			jobs1.add(job1);
-			jobs1.add(job2);
-			
-			log.info(">>> asetetaan työt person ykköselle");
-			person1.setJobs(jobs1);
-			job1.getPersons().add(person1);
-			job2.getPersons().add(person1);
-			log.info(">>> ja talletetaan");
-			personrepository.save(person1);
-			
-			log.info(">>> luodaan toka joukko töitä");
-			Set<Job> jobs2 = new HashSet<>();
-			jobs2.add(job3);
-			jobs2.add(job4);
-			job3.getPersons().add(person2);
-			job4.getPersons().add(person2);
-			
-			log.info(">>> asetetaan työt person kakkoselle");
-			person2.setJobs(jobs2);
-			personrepository.save(person2);
-
-			/*personrepository.save(new Person("Matti", "Mikkonen", 1956,
-					statusrepository.findByDescription("pensioner").get(0), 15, "matti@mikkonen.fi", "040567899"));
-			personrepository.save(new Person("Maija", "Makkonen", 1990,
-					statusrepository.findByDescription("student").get(0), 13, "maija@makkonen.fi", "040123456"));
-			
-			*/
-			
+		
 
 			log.info(">>> fetch all jobs");
 			for (Job job : jobrepository.findAll()) {

@@ -1,7 +1,7 @@
 package fi.demot.myhomeservice.web;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +51,21 @@ public class HomeserviceController {
 	@RequestMapping(value= "/save", method = RequestMethod.POST)
 	public String savePerson(Person person) {
 		
+		//käytetään samaa metodia uuden henkilön ja vanhan henkilön muuttuneiden tietojen tallentamiseen
+		//ennen tallentamista otetaan talteen "vanhan henkilön" työt, jotka asetetaan "uudelle henkilölle", jonka tietoja on muutettu
+		
+		if(person.getId()!=null) {
+		
+			Person oldPerson = personrepository.findById(person.getId()).get();
+			
+			Set<Job> jobs = oldPerson.getJobs();
+			person.setJobs(jobs);
+		
+		}
+		
 		personrepository.save(person);
+		
+		
 		
 		return "redirect:/homeservice";
 	}
@@ -69,9 +83,9 @@ public class HomeserviceController {
 	@RequestMapping (value = "edit/{id}", method = RequestMethod.GET)
 	public String editPerson (@PathVariable("id") Long id, Model model) {
 		
-		model.addAttribute("editPerson", personrepository.findById(id));
+		model.addAttribute("editPerson", personrepository.findById(id).get());
 		model.addAttribute("status", statusrepository.findAll());
-		
+				
 		return "editperson";
 	}
 
@@ -80,7 +94,7 @@ public class HomeserviceController {
 	public String addJob(@PathVariable("id") Long id, Model model) {
 
 		model.addAttribute("alljobs", jobrepository.findAll());
-		model.addAttribute("person", personrepository.findById(id).get());//onko oikein?
+		model.addAttribute("person", personrepository.findById(id).get());
 
 		return "addpersonsjob";
 
@@ -93,19 +107,6 @@ public class HomeserviceController {
 		Job job = jobrepository.findById(jobId).get();
 		Person person = personrepository.findById(id).get();
 
-/* 		Optional<Job> jobOptional = jobrepository.findById(jobId);
-
-		if (jobOptional.isPresent()) {
-			Job job = jobOptional.get();
-		}
-
-		Optional<Person> personOptional = personrepository.findById(id);
-
-		if (personOptional.isPresent()) {
-			Person person = personOptional.get();
-		}
-
-*/
 		person.getJobs().add(job);
 		
 		personrepository.save(person);

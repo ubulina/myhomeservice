@@ -25,8 +25,8 @@ public class Job {
 	private Long jobId;
 	private String area;
 
-	@ManyToMany(mappedBy="jobs")  //, fetch = FetchType.EAGER)//person-olion jobs-listaus omistaa viittaussuhteen
-	@JsonIgnoreProperties("jobs")//merkintä laitetaan ristiin manytomany-suhteessa oleviin listoihin
+	@ManyToMany(mappedBy="jobs")  //person-olion jobs-listaus omistaa viittaussuhteen
+	@JsonIgnoreProperties("jobs") //merkintä laitetaan ristiin manyToMany-suhteessa oleviin listoihin
 	private Set<Person> persons = new HashSet<>();
 
 	public Job() {

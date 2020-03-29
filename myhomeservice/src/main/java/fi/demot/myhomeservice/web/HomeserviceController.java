@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import fi.demot.myhomeservice.domain.StatusRepository;
 @Controller
 public class HomeserviceController {
 
-	// tuodaan repositoriot ja metodit controllerin käyttöön
+	//tuodaan repositoriot ja metodit controllerin käyttöön
 	@Autowired
 	private PersonRepository personrepository;
 	@Autowired
@@ -39,8 +40,17 @@ public class HomeserviceController {
 		return "personlist";
 
 	}
+	
+	//metodina tässä GET, sillä jos POST:illa eri merkitys 
+	//tässä tarkoitus ohjata käyttäjä login-sivulle, jos hän päätyy login-päätteiseen osoitteeseen
+	@RequestMapping(value = "/login")
+	public String goLoginPage() {
+				
+		return "login";
+	}
 
 	@RequestMapping(value = "/addPerson")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String addPerson(Model model) {
 
 		model.addAttribute("person", new Person());
@@ -72,16 +82,18 @@ public class HomeserviceController {
 	}
 	
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String deletePerson (@PathVariable("id") Long id, Model model) {
 		
 		personrepository.deleteById(id);
 		
-		return "redirect:../homeservice";
+		return "redirect:/homeservice";
 		
 			
 	}
 	
 	@RequestMapping (value = "edit/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String editPerson (@PathVariable("id") Long id, Model model) {
 		
 		model.addAttribute("editPerson", personrepository.findById(id).get());
@@ -92,6 +104,7 @@ public class HomeserviceController {
 
 	//tässä metodissa otetaan talteen henkilön id uuden työn lisäämistä varten
 	@RequestMapping(value = "personAddJob/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String addJob(@PathVariable("id") Long id, Model model) {
 
 		model.addAttribute("alljobs", jobrepository.findAll());
@@ -103,6 +116,7 @@ public class HomeserviceController {
 	
 	//tässä metodissa talletaan henkilön uusi työ tietokantaan
 	@RequestMapping(value = "/person/{id}/jobs", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String addPersonsJob(@PathVariable("id") Long id, @RequestParam Long jobId, Model model) {
 
 		Job job = jobrepository.findById(jobId).get();
@@ -115,7 +129,7 @@ public class HomeserviceController {
 		model.addAttribute("person", personrepository.findById(id).get());
 		model.addAttribute("jobs", jobrepository.findAll());
 
-		return "redirect:/homeservice"; //eikö tähän tule kaksi pistettä osoitteen eteen?
+		return "redirect:/homeservice"; 
 
 	}
 		

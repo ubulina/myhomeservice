@@ -1,15 +1,24 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 	<title>Homeservice - add job</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link type="text/css" rel="stylesheet" th:href="@{../css/bootstrap.min.css}" />	
+	<style>
+	h1 {
+	margin-left: 20px;
+	}
+	
+	</style>
 </head>
 <body>
+
 	<h1>Add job </h1>
 	
+<div style="padding:0 20px">
 	<form th:action="@{/person/{id}/jobs(id=${person.id})}" method="get" enctype="multipart/form-data" >
 	<div class="col-md-4">
+	<br>
 		<div class="panel panel-default">
 		 <div class="panel-heading">Person info</div>
 		 <div class="panel-body" style="padding-left: 5px;">
@@ -37,5 +46,6 @@
 			<input type="submit" class="btn btn-success" value="Add job"/>
 	</div>
 	</form>
+</div>	
 </body>
 </html>

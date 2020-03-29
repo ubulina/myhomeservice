@@ -40,15 +40,14 @@ public class Person {
 	private String email;
 	private String phone;
 
-	@ManyToMany(cascade=CascadeType.MERGE )  //, fetch = FetchType.EAGER)    // CascadeType.ALL
+	@ManyToMany(cascade=CascadeType.MERGE )  
 	@JoinTable(
 			name = "Persons_jobs",
 			joinColumns = { @JoinColumn(name = "person_id", referencedColumnName = "id") },
 			inverseJoinColumns = { @JoinColumn(name = "job_id", referencedColumnName = "jobId") }
-//			joinColumns = { @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false, updatable = false) },
-//			inverseJoinColumns = { @JoinColumn(name = "job_id", referencedColumnName = "jobId", nullable = false, updatable = false) }
+
 			)
-	@JsonIgnoreProperties("persons")//merkintä laitetaan ristiin manytomany-suhteessa oleviin listoihin
+	@JsonIgnoreProperties("persons")//merkintä laitetaan ristiin manyToMany-suhteessa oleviin listoihin
 	private Set<Job> jobs = new HashSet<>();
 
 	public Person() {

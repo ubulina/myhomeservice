@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Personlist</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -30,7 +30,9 @@
 		    <th>E-mail</th>
 		    <th>Phone</th>
 		    <th>Jobs</th>
-		    <th>Actions</th>
+		    <th sec:authorize="hasAuthority('ADMIN')">Actions</th>
+		    <th sec:authorize="hasAuthority('ADMIN')"></th>
+		    <th sec:authorize="hasAuthority('ADMIN')"></th>
 		</tr>  
     	<tr th:each = "person : ${persons}">
     		<td th:text="${person.firstName}"></td>
@@ -45,14 +47,14 @@
 					<span th:text="${job.area}"></span><th:block th:if="${!iterStat.last}">,</th:block>
 				</span>    		
     		</td>
-    		<td>
-    			<a th:href="@{/personAddJob/{id}(id=${person.id})}" class="btn btn-success">Add Job</a>
-    			<a th:href="@{/delete/{id}(id=${person.id})}" class="btn btn-danger">Delete</a>
-    			<a th:href="@{/edit/{id}(id=${person.id})}" class="btn btn-primary">Edit</a>
-    		</td>
+    		
+    			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/personAddJob/{id}(id=${person.id})}" class="btn btn-success">Add Job</a></td>
+    			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${person.id})}" class="btn btn-danger">Delete</a></td>
+    			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${person.id})}" class="btn btn-primary">Edit</a></td>
+    		
     	</tr>
     </table>
-    <a href="/addPerson" class="btn btn-success">Add Person</a>
+    <a sec:authorize="hasAuthority('ADMIN')" href="/addPerson" class="btn btn-success">Add Person</a>
 	</div>    
 </body>
 </html>
